@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import React, { useState, useRef } from 'react';
@@ -59,7 +60,7 @@ export default function Identity() {
 
         <div className="text-center mb-8">
           <h1 className="text-[28px] leading-tight font-extrabold text-[#0a1b44] tracking-tight">
-            Define your brand's visual identity
+            Define your brand&apos;s visual identity
           </h1>
           <p className="mx-auto mt-3 max-w-[420px] text-[14px] leading-6 text-gray-500">
             Choose colors and tones that resonate with your audience and reflect your brand's core values.

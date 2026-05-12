@@ -6,7 +6,7 @@ import {
   FiCheckCircle,
   FiChevronLeft,
   FiChevronRight,
-  FiClock,
+  FiCircle,
   FiImage,
   FiMaximize2,
   FiMoreHorizontal,
@@ -20,36 +20,43 @@ import {
 const actionSteps = [
   {
     day: 'Day 1',
+    label: 'Brand Audit',
     title: 'Analyze core identity & assets',
     status: 'done',
   },
   {
     day: 'Day 2',
+    label: 'Competitor Analysis',
     title: 'Competitive map & marketing strategy',
     status: 'active',
   },
   {
     day: 'Day 3',
+    label: 'Keyword Strategy',
     title: 'Persona + target market insights',
     status: 'next',
   },
   {
     day: 'Day 4',
+    label: 'Content Plan',
     title: 'Brand voice + campaign deck',
     status: 'next',
   },
   {
     day: 'Day 5',
+    label: 'Ad Creative',
     title: 'Narrative + visual system',
     status: 'next',
   },
   {
     day: 'Day 6',
+    label: 'Launch Story',
     title: 'Launch story + media plan',
     status: 'next',
   },
   {
     day: 'Day 7',
+    label: 'Insights',
     title: 'Insights & automation',
     status: 'next',
   },
@@ -160,17 +167,25 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="min-h-screen bg-[linear-gradient(180deg,#f8faff_0%,#eef2ff_45%,#f4f6fb_100%)] text-slate-900">
+      <div className="min-h-screen bg-[linear-gradient(180deg,#f7f9ff_0%,#eef2ff_42%,#f4f6fb_100%)] text-slate-900">
         <div className="relative overflow-hidden">
+          <div className="pointer-events-none absolute -left-28 top-20 h-72 w-72 rounded-full bg-[#dbe7ff] blur-3xl opacity-60" />
+          <div className="pointer-events-none absolute -right-24 top-72 h-80 w-80 rounded-full bg-[#f6d7ea] blur-3xl opacity-60" />
           <div className="mx-auto w-full px-6 pb-16 pt-10">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#4757c8] shadow-sm backdrop-blur">
+                  AI Creative Suite
+                </div>
+                <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
                   Morning, Alex
                 </p>
                 <h1 className="mt-2 text-3xl font-semibold text-slate-900">
                   Performance Overview
                 </h1>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+                  Keep moving from strategy to creative with the same clean, premium visual system.
+                </p>
               </div>
               <button className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-sm font-medium text-slate-700 shadow-sm backdrop-blur transition hover:border-slate-300 hover:bg-white hover:shadow-md">
                 Last 30 Days
@@ -178,10 +193,13 @@ export default function Dashboard() {
               </button>
             </div>
 
-            <div className="mt-8 rounded-3xl border border-white/70 bg-white/80 p-6 shadow-[0_18px_60px_rgba(15,23,42,0.12)] backdrop-blur">
+            <div className="mt-8 rounded-3xl border border-white/70 bg-white/75 p-6 shadow-[0_18px_60px_rgba(15,23,42,0.12)] backdrop-blur">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm font-semibold text-slate-700">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    7 Day Sprint
+                  </div>
+                  <p className="mt-3 text-sm font-semibold text-slate-800">
                     7-Day Action Plan
                   </p>
                   <p className="mt-1 text-xs text-slate-500">
@@ -189,37 +207,75 @@ export default function Dashboard() {
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="h-2 w-28 overflow-hidden rounded-full bg-slate-100">
-                    <div className="h-full w-[28%] rounded-full bg-[linear-gradient(90deg,#6366f1,#22c55e)]" />
+                  <div className="h-2 w-28 overflow-hidden rounded-full bg-slate-100 shadow-inner">
+                    <div className="h-full w-[28%] rounded-full bg-[linear-gradient(90deg,#5b48c1,#eb6aa8)]" />
                   </div>
                   <span className="text-xs font-semibold text-slate-500">28% Complete</span>
                 </div>
               </div>
 
-              <div className="mt-6 grid gap-4 md:grid-cols-4 lg:grid-cols-7">
+              <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5 xl:grid-cols-7">
                 {actionSteps.map((step) => (
                   <div
                     key={step.day}
-                    className={`rounded-2xl border px-4 py-4 text-xs shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md ${
+                    className={`rounded-3xl border px-4 py-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md ${
                       step.status === 'active'
-                        ? 'border-indigo-200 bg-indigo-50/80 text-indigo-900'
+                        ? 'border-pink-200 bg-[linear-gradient(180deg,rgba(255,240,248,0.95),rgba(255,248,252,0.9))] text-[#b22e7a]'
                         : step.status === 'done'
-                          ? 'border-emerald-200 bg-emerald-50/80 text-emerald-900'
-                          : 'border-slate-200 bg-white text-slate-600'
+                          ? 'border-blue-200 bg-white text-[#24439b]'
+                          : 'border-slate-200 bg-white/75 text-slate-400'
                     }`}
                   >
-                    <div className="flex items-center justify-between">
-                      <span className="text-[11px] font-semibold uppercase tracking-[0.12em]">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`flex h-7 w-7 items-center justify-center rounded-full border text-[10px] font-semibold ${
+                          step.status === 'done'
+                            ? 'border-[#24439b] bg-[#24439b] text-white'
+                            : step.status === 'active'
+                              ? 'border-[#b22e7a] bg-white text-[#b22e7a]'
+                              : 'border-slate-300 bg-white text-slate-300'
+                        }`}
+                      >
+                        {step.status === 'done' && <FiCheckCircle className="text-[16px]" />}
+                        {step.status === 'active' && <FiMoreHorizontal className="text-[16px]" />}
+                        {step.status === 'next' && <FiCircle className="text-[12px]" />}
+                      </div>
+                      <span
+                        className={`text-[17px] font-semibold tracking-[-0.02em] ${
+                          step.status === 'active'
+                            ? 'text-[#b22e7a]'
+                            : step.status === 'done'
+                              ? 'text-[#24439b]'
+                              : 'text-slate-400'
+                        }`}
+                      >
                         {step.day}
                       </span>
-                      {step.status === 'done' && (
-                        <FiCheckCircle className="text-emerald-500" />
-                      )}
-                      {step.status === 'active' && <FiClock className="text-indigo-500" />}
                     </div>
-                    <p className="mt-3 text-[13px] font-semibold leading-snug text-slate-900">
-                      {step.title}
-                    </p>
+                    <div className="mt-4">
+                      <p
+                        className={`text-[14px] leading-5 ${
+                          step.status === 'active'
+                            ? 'text-[#d17aab]'
+                            : step.status === 'done'
+                              ? 'text-slate-400'
+                              : 'text-slate-300'
+                        }`}
+                      >
+                        {step.label}
+                      </p>
+                      <p
+                        className={`mt-2 text-[18px] font-medium leading-6 tracking-[-0.03em] ${
+                          step.status === 'active'
+                            ? 'text-[#1f2f7a]'
+                            : step.status === 'done'
+                              ? 'text-[#1f2f7a]'
+                              : 'text-slate-400'
+                        }`}
+                      >
+                        {step.title}
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -228,7 +284,10 @@ export default function Dashboard() {
             <div className="mt-10">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold text-slate-900">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-white/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 shadow-sm backdrop-blur">
+                    Library
+                  </div>
+                  <h2 className="mt-3 text-lg font-semibold text-slate-900">
                     Recently Generated Content
                   </h2>
                   <p className="mt-1 text-xs text-slate-500">
@@ -245,7 +304,7 @@ export default function Dashboard() {
                 {contentCards.map((card) => (
                   <div
                     key={card.title}
-                    className="group overflow-hidden rounded-2xl border border-white/70 bg-white/85 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(15,23,42,0.12)]"
+                    className="group overflow-hidden rounded-2xl border border-white/70 bg-white/88 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(15,23,42,0.12)]"
                   >
                     <div className="relative h-32 overflow-hidden bg-slate-100">
                       <Image
@@ -255,7 +314,7 @@ export default function Dashboard() {
                         className="object-cover transition duration-300 group-hover:scale-[1.03]"
                       />
                       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(15,23,42,0.15),rgba(15,23,42,0))]" />
-                      <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">
+                      <span className="absolute left-3 top-3 rounded-full bg-white/92 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700 shadow-sm">
                         {card.label}
                       </span>
                     </div>
@@ -268,11 +327,11 @@ export default function Dashboard() {
                   </div>
                 ))}
                 <div className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                  <div className="flex flex-1 flex-col items-center justify-center gap-2 bg-slate-50 px-4 py-6 text-center">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400">
+                  <div className="flex flex-1 flex-col items-center justify-center gap-2 bg-[linear-gradient(180deg,#f8fafc, #eef2ff)] px-4 py-6 text-center">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 shadow-sm">
                       <FiPlus />
                     </div>
-                    <p className="text-xs font-semibold text-slate-400">Generate More</p>
+                    <p className="text-xs font-semibold text-slate-500">Generate More</p>
                   </div>
                   <div className="border-t border-slate-100 px-4 py-4">
                     <h3 className="text-sm font-semibold text-slate-900">Create New Asset</h3>
@@ -285,7 +344,10 @@ export default function Dashboard() {
             <div className="mt-10">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold text-slate-900">Ad Inspiration</h2>
+                  <div className="inline-flex items-center gap-2 rounded-full bg-white/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 shadow-sm backdrop-blur">
+                    Inspiration
+                  </div>
+                  <h2 className="mt-3 text-lg font-semibold text-slate-900">Ad Inspiration</h2>
                   <p className="mt-1 text-xs text-slate-500">
                     Top performing campaigns for your industry
                   </p>
@@ -319,7 +381,7 @@ export default function Dashboard() {
                         className="object-cover"
                       />
                       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(15,23,42,0.2),rgba(15,23,42,0))]" />
-                      <span className="absolute left-3 top-3 rounded-full bg-pink-500 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
+                      <span className="absolute left-3 top-3 rounded-full bg-pink-500 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white shadow-sm">
                         {card.chip}
                       </span>
                       <div className="absolute inset-0 flex items-center justify-center">
