@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -13,8 +14,64 @@ import {
 } from "react-icons/fi";
 import { BsStars } from "react-icons/bs";
 import Link from "next/link";
+import Image from "next/image";
 
-type VideoAsset = { url: string; duration?: string };
+type Asset = {
+  title: string;
+  type: "Images" | "Videos" | string;
+  date: string;
+  src: string;
+  duration?: string;
+};
+
+// VideoAsset type for uploaded videos
+type VideoAsset = {
+  url: string;
+  duration: string;
+};
+
+const initialAssets: Asset[] = [
+  {
+    title: "Instagram Ad - Summer",
+    type: "Images",
+    date: "Edited Oct 24, 2023",
+    src: "/assets/AB6AXuAWnOWFz5Lg4NUD-itraNbTAozryVCn5bVX6k1upSukmecB7GQGvYtNy-4kfkobDcfBO5VRZ33XSaszudApcll9crgUYOKOjFbFguPBlt4rfH3b3awRGspnFzMgnWtBZLRNODkYleBYdSAdB1mTZeqj7ltlkCp_3B34fQyXGmkzAVd6v6PRsIyfdmrDz88OHcOwDNN.png",
+  },
+  {
+    title: "Product Demo Walkthrough",
+    type: "Videos",
+    date: "Edited Oct 22, 2023",
+    src: "/assets/AB6AXuCRdQh-YIne0iaza8vyVlWYXfN8HJMXXHHTLu23xlh9jg5nwmcJCeWUE1ZjPWe4jAloHLY_PtuY3D8Z844l6-q9WiFBI5E03dpyErTGLDiXeaQCkpjla_BO1EltRDBC3Bpy0_Q351kyoztU6FVA2mvmm8ZIxjUJ20VK6pNPULzjZ4rUvYoc3VWQFh3vSMOTD4V6Jn8.png",
+    duration: "0:15",
+  },
+  {
+    title: "Product Marketing",
+    type: "Images",
+    date: "Edited Oct 18, 2023",
+    src: "/assets/ai-sample-1.svg",
+  },
+  {
+    title: "TikTok Script v1 - AI G",
+    type: "Videos",
+    date: "Edited Oct 15, 2023",
+    src: "/assets/ai-sample-2.svg",
+    duration: "0:30",
+  },
+  {
+    title: "Product Demo Walkthrough",
+    type: "Videos",
+    date: "Edited Oct 22, 2023",
+    src: "/assets/ai-sample-3.svg",
+    duration: "0:12",
+  },
+  {
+    title: "Product Marketing",
+    type: "Images",
+    date: "Edited Oct 18, 2023",
+    src: "/assets/ai-sample-1.svg",
+  },
+];
+
 
 export default function AdsVideo() {
   const aspectRatioOptions = ["Portrait (9:16)", "Landscape (16:9)", "Square (1:1)"];
@@ -33,11 +90,6 @@ export default function AdsVideo() {
   const [aspectRatio, setAspectRatio] = useState("Portrait (9:16)");
   const [selectedLanguage, setSelectedLanguage] = useState("English (US)");
   const [selectedAssets, setSelectedAssets] = useState<number[]>([0]);
-  const [assets, setAssets] = useState<VideoAsset[]>([
-    { url: "/assets/ai-sample-1.svg", duration: "0:15" },
-    { url: "/assets/ai-sample-2.svg", duration: "0:30" },
-    { url: "/assets/ai-sample-3.svg", duration: "0:12" },
-  ]);
   const [durationPreset, setDurationPreset] = useState("30 Seconds");
   const [targetAudience, setTargetAudience] = useState("");
 
@@ -53,11 +105,11 @@ export default function AdsVideo() {
   }
 
   function selectAllAssets() {
-    if (selectedAssets.length === assets.length) {
+    if (selectedAssets.length === initialAssets.filter(a => a.type === 'Videos').length) {
       setSelectedAssets([]);
       return;
     }
-    setSelectedAssets(assets.map((_, index) => index));
+    setSelectedAssets(initialAssets.map((_, index) => index));
   }
 
   async function getVideoDuration(file: File) {
@@ -249,16 +301,39 @@ export default function AdsVideo() {
         </div>
 
         <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-5 md:gap-4">
-          {assets.map((asset, index) => {
-            const selected = selectedAssets.includes(index);
-            return (
-              <button key={asset.url} onClick={() => toggleAsset(index)} className={`relative h-31.5 overflow-hidden rounded-2xl border bg-white transition-all ${selected ? "border-[#3058a5] shadow-[inset_0_0_0_1px_#3058a5]" : "border-[#e1e7f0]"}`}>
-                <div className="h-full w-full bg-cover bg-center" style={{ backgroundImage: `url(${asset.url})` }} aria-hidden />
-                <div className="absolute bottom-2 right-2 rounded-md bg-black/60 px-2 py-1 text-xs text-white">{asset.duration ?? "0:00"}</div>
-                <span className={`absolute right-2 top-2 h-4 w-4 rounded-full border ${selected ? "border-[#1f4a9b] bg-[#1f4a9b]" : "border-[#d0d8e7] bg-white"}`} />
-              </button>
-            );
-          })}
+          {initialAssets
+            .filter((asset) => asset.type === "Videos")
+            .map((asset, index) => {
+              const selected = selectedAssets.includes(index);
+              return (
+                <button
+                  key={asset.src}
+                  onClick={() => toggleAsset(index)}
+                  className={`relative h-31.5 overflow-hidden rounded-2xl border bg-white transition-all ${
+                    selected
+                      ? "border-[#3058a5] shadow-[inset_0_0_0_1px_#3058a5]"
+                      : "border-[#e1e7f0]"
+                  }`}
+                >
+                  <Image
+                    src={asset.src}
+                    alt={asset.title}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                  <div className="absolute bottom-2 right-2 rounded-md bg-black/60 px-2 py-1 text-xs text-white">
+                    {asset.duration ?? "0:00"}
+                  </div>
+                  <span
+                    className={`absolute right-2 top-2 h-4 w-4 rounded-full border ${
+                      selected
+                        ? "border-[#1f4a9b] bg-[#1f4a9b]"
+                        : "border-[#d0d8e7] bg-white"
+                    }`}
+                  />
+                </button>
+              );
+            })}
 
           <label className="flex h-31.5 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#d5ddeb] bg-[#f7f9fd] text-center">
             <input type="file" multiple accept="video/*" className="hidden" onChange={handleAddMoreVideos} />
@@ -303,5 +378,9 @@ export default function AdsVideo() {
       </div>
     </section>
   );
+}
+
+function setAssets(arg0: (prev: any) => any[]) {
+  throw new Error("Function not implemented.");
 }
 

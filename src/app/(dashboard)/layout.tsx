@@ -5,10 +5,11 @@ import Link from "next/link";
 import { MdOutlineDashboard } from "react-icons/md";
 import { HiOutlineIdentification } from "react-icons/hi";
 import { BsGraphUp, BsCalendarEvent } from "react-icons/bs";
-import { FiAperture, FiFileText, FiFolder, FiVideo, FiSearch, FiBell, FiMenu, FiX } from "react-icons/fi";
+import { FiAperture, FiFileText, FiFolder, FiVideo, FiBell, FiMenu, FiX } from "react-icons/fi";
 import { IoAnalyticsOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { FiLogOut, FiSettings, FiCheckCircle } from "react-icons/fi";
 
 const navItems = [
     { name: "Dashboard", href: "/dashboard", Icon: MdOutlineDashboard },
@@ -25,6 +26,31 @@ const navItems = [
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+    const profileMenuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        function handleOutsideClick(event: MouseEvent) {
+            if (!profileMenuRef.current) return;
+            if (!profileMenuRef.current.contains(event.target as Node)) {
+                setProfileMenuOpen(false);
+            }
+        }
+
+        function handleEscapeKey(event: KeyboardEvent) {
+            if (event.key === "Escape") {
+                setProfileMenuOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleOutsideClick);
+        document.addEventListener("keydown", handleEscapeKey);
+
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+            document.removeEventListener("keydown", handleEscapeKey);
+        };
+    }, []);
 
     return (
         <>
@@ -73,9 +99,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <p className="text-[11px] text-[#6b7280] mt-1.5 leading-snug">
                             Get advanced AI features & unlimited exports.
                         </p>
-                        <button className="mt-4 w-full text-[12px] font-semibold bg-gradient-to-r from-[#7a3db1] to-[#ca499c] text-white py-2.5 rounded-[6px] hover:opacity-90 transition-opacity drop-shadow-sm">
+                        <Link
+                            href="/pricing"
+                            className="mt-4 inline-flex w-full items-center justify-center text-[12px] font-semibold bg-gradient-to-r from-[#7a3db1] to-[#ca499c] text-white py-2.5 rounded-[6px] hover:opacity-90 transition-opacity drop-shadow-sm"
+                        >
                             Learn More
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </aside>
@@ -105,15 +134,74 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     
                     <div className="w-px h-[24px] bg-[#eef2f6]"></div>
                     
-                    <div className="flex items-center gap-3">
+                    <div className="relative flex items-center gap-3" ref={profileMenuRef}>
                         <div className="text-right">
                             <div className="text-[14px] font-bold text-[#2d3779] leading-tight">Alex Morgan</div>
                             <div className="text-[11px] text-[#8E95A2] font-semibold mt-[2px]">Growth Lead</div>
                         </div>
-                        <div className="w-10 h-10 rounded-full overflow-hidden bg-[#1e3a5f] shadow-sm flex-shrink-0">
-                            {/* Avatar placeholder that matches the screenshot */}
-                            <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Alex Morgan" className="w-full h-full object-cover" />
-                        </div>
+
+                        <button
+                            type="button"
+                            aria-label="Open profile menu"
+                            onClick={() => setProfileMenuOpen((open) => !open)}
+                            className="w-10 h-10 rounded-full overflow-hidden bg-[#1e3a5f] shadow-sm flex-shrink-0 ring-2 ring-transparent transition hover:ring-[#d8e2f2]"
+                        >
+                            <span className="flex h-full w-full items-center justify-center bg-linear-to-br from-[#2f4aa7] to-[#b43f97] text-sm font-bold text-white">
+                                AM
+                            </span>
+                        </button>
+
+                        {profileMenuOpen && (
+                            <div className="absolute right-0 top-[calc(100%+16px)] w-[310px] overflow-hidden rounded-[18px] border border-[#e7ebf2] bg-white shadow-[0_20px_48px_rgba(28,39,82,0.18)]">
+                                <div className="border-b border-[#eef2f7] px-7 py-6">
+                                    <p className="text-[14px] font-extrabold leading-none text-[#23408a]">alex&apos;s Studio</p>
+
+                                    <div className="mt-5 flex items-center justify-between">
+                                        <span className="inline-flex rounded-full bg-[#f8ebf8] px-4 py-1 text-lg font-extrabold tracking-wide text-[#ad2f8c]">
+                                            FREE PLAN
+                                        </span>
+
+                                        <span className="inline-flex h-16 w-16 items-center justify-center rounded-[14px] bg-[#edf1f7] text-[#2a4da5]">
+                                            <FiCheckCircle className="h-8 w-8" />
+                                        </span>
+                                    </div>
+
+                                    <Link
+                                        href="/settings"
+                                        className="mt-8 inline-flex w-full items-center justify-center gap-3 rounded-[16px] border border-[#d8dfeb] px-6 py-4 text-[18px] font-bold text-[#24459d] hover:bg-[#f7f9fd]"
+                                    >
+                                        <FiSettings className="h-5 w-5" />
+                                        Settings
+                                    </Link>
+                                </div>
+
+                                <div className="border-b border-[#eef2f7] px-7 py-6">
+                                    <p className="text-[18px] font-extrabold tracking-[0.14em] text-[#6f7380]">SIGNED IN AS</p>
+
+                                    <div className="mt-5 flex items-center gap-4">
+                                        <div className="relative h-16 w-16 rounded-full bg-linear-to-br from-[#2f4aa7] to-[#b43f97] text-center text-4xl font-bold leading-[64px] text-white">
+                                            a
+                                            <span className="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white bg-[#22c55e]" />
+                                        </div>
+
+                                        <div>
+                                            <p className="text-[14px] font-extrabold leading-none text-[#24459d]">alex hales</p>
+                                            <p className="mt-1 text-[13px] text-[#6e7380]">alexhales@gmail.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="px-7 py-5">
+                                    <Link
+                                        href="/auth/signIn"
+                                        className="inline-flex items-center gap-3 text-[15px] font-semibold text-[#ef4444] hover:text-[#dc2626]"
+                                    >
+                                        <FiLogOut className="h-5 w-5" />
+                                        Logout
+                                    </Link>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </header>
@@ -189,9 +277,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <p className="text-[11px] text-[#6b7280] mt-1.5 leading-snug">
                             Get advanced AI features & unlimited exports.
                         </p>
-                        <button className="mt-4 w-full text-[12px] font-semibold bg-gradient-to-r from-[#7a3db1] to-[#ca499c] text-white py-2.5 rounded-[6px] hover:opacity-90 transition-opacity drop-shadow-sm">
+                        <Link
+                            href="/pricing"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="mt-4 inline-flex w-full items-center justify-center text-[12px] font-semibold bg-gradient-to-r from-[#7a3db1] to-[#ca499c] text-white py-2.5 rounded-[6px] hover:opacity-90 transition-opacity drop-shadow-sm"
+                        >
                             Learn More
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </aside>

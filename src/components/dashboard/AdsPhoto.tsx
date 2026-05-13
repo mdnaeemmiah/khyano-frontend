@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -13,6 +14,54 @@ import {
 } from "react-icons/fi";
 import { BsStars } from "react-icons/bs";
 import Link from "next/link";
+import Image from "next/image";
+
+type Asset = {
+  title: string;
+  type: "Images" | "Videos" | string;
+  date: string;
+  src: string;
+};
+
+const initialAssets: Asset[] = [
+  {
+    title: "Instagram Ad - Summer",
+    type: "Images",
+    date: "Edited Oct 24, 2023",
+    src: "/assets/AB6AXuAWnOWFz5Lg4NUD-itraNbTAozryVCn5bVX6k1upSukmecB7GQGvYtNy-4kfkobDcfBO5VRZ33XSaszudApcll9crgUYOKOjFbFguPBlt4rfH3b3awRGspnFzMgnWtBZLRNODkYleBYdSAdB1mTZeqj7ltlkCp_3B34fQyXGmkzAVd6v6PRsIyfdmrDz88OHcOwDNN.png",
+  },
+  {
+    title: "Product Demo Walkthrough",
+    type: "Videos",
+    date: "Edited Oct 22, 2023",
+    src: "/assets/AB6AXuCRdQh-YIne0iaza8vyVlWYXfN8HJMXXHHTLu23xlh9jg5nwmcJCeWUE1ZjPWe4jAloHLY_PtuY3D8Z844l6-q9WiFBI5E03dpyErTGLDiXeaQCkpjla_BO1EltRDBC3Bpy0_Q351kyoztU6FVA2mvmm8ZIxjUJ20VK6pNPULzjZ4rUvYoc3VWQFh3vSMOTD4V6Jn8.png",
+  },
+  {
+    title: "Product Marketing",
+    type: "Images",
+    date: "Edited Oct 18, 2023",
+    src: "/assets/ai-sample-1.svg",
+  },
+  {
+    title: "TikTok Script v1 - AI G",
+    type: "Videos",
+    date: "Edited Oct 15, 2023",
+    src: "/assets/ai-sample-2.svg",
+  },
+  {
+    title: "Product Demo Walkthrough",
+    type: "Videos",
+    date: "Edited Oct 22, 2023",
+    src: "/assets/ai-sample-3.svg",
+  },
+  {
+    title: "Product Marketing",
+    type: "Images",
+    date: "Edited Oct 18, 2023",
+    src: "/assets/ai-sample-1.svg",
+  },
+];
+
 
 export default function AdsPhoto() {
   const aspectRatioOptions = [
@@ -41,12 +90,6 @@ export default function AdsPhoto() {
   const [aspectRatio, setAspectRatio] = useState("Portrait (9:16)");
   const [selectedLanguage, setSelectedLanguage] = useState("English (US)");
   const [selectedAssets, setSelectedAssets] = useState<number[]>([0]);
-  const [assets, setAssets] = useState<string[]>([
-    "/assets/ai-sample-1.svg",
-    "/assets/ai-sample-2.svg",
-    "/assets/ai-sample-3.svg",
-    "/assets/Visual%20Asset.svg",
-  ]);
   const uploadedAssetUrlsRef = useRef<string[]>([]);
 
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
@@ -61,11 +104,11 @@ export default function AdsPhoto() {
   }
 
   function selectAllAssets() {
-    if (selectedAssets.length === assets.length) {
+    if (selectedAssets.length === initialAssets.length) {
       setSelectedAssets([]);
       return;
     }
-    setSelectedAssets(assets.map((_, index) => index));
+    setSelectedAssets(initialAssets.map((_, index) => index));
   }
 
   function handleAddMoreAssets(e: React.ChangeEvent<HTMLInputElement>) {
@@ -266,11 +309,11 @@ export default function AdsPhoto() {
         </div>
 
         <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-5 md:gap-4">
-          {assets.map((asset, index) => {
+          {initialAssets.map((asset, index) => {
             const selected = selectedAssets.includes(index);
             return (
               <button
-                key={asset}
+                key={asset.src}
                 onClick={() => toggleAsset(index)}
                 className={`relative h-31.5 overflow-hidden rounded-2xl border bg-white transition-all ${
                   selected
@@ -278,10 +321,11 @@ export default function AdsPhoto() {
                     : "border-[#e1e7f0]"
                 }`}
               >
-                <div
-                  className="h-full w-full bg-cover bg-center"
-                  style={{ backgroundImage: `url(${asset})` }}
-                  aria-hidden
+                <Image
+                  src={asset.src}
+                  alt={asset.title}
+                  layout="fill"
+                  objectFit="cover"
                 />
                 <span
                   className={`absolute right-2 top-2 h-4 w-4 rounded-full border ${
@@ -404,3 +448,7 @@ export default function AdsPhoto() {
     </section>
   );
 }
+function setAssets(arg0: (prevAssets: any) => any[]) {
+  throw new Error("Function not implemented.");
+}
+

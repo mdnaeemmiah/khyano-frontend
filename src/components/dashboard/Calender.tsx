@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import { FiBell, FiX, FiPlay } from "react-icons/fi";
+import Link from "next/link";
 
 type CalendarEvent = {
   day: number;
@@ -232,12 +233,12 @@ export default function Calender() {
                   >
                     Approve
                   </button>
-                  <button
-                    onClick={() => setMessage(`${selectedEvent.title} scheduled.`)}
+                  <Link
+                    href="/schedule"
                     className="rounded-xl bg-linear-to-r from-[#3047a3] to-[#df53a7] px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_24px_rgba(73,77,180,0.18)]"
                   >
                     Schedule
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
