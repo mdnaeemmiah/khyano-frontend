@@ -1,5 +1,4 @@
-import Content from '@/src/components/dashboard/Content'
-import React from 'react'
+import Content from "@/src/components/dashboard/Content";
 
 export default function page() {
   return (

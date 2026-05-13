@@ -157,11 +157,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                                     <p className="text-[14px] font-extrabold leading-none text-[#23408a]">alex&apos;s Studio</p>
 
                                     <div className="mt-5 flex items-center justify-between">
-                                        <span className="inline-flex rounded-full bg-[#f8ebf8] px-4 py-1 text-lg font-extrabold tracking-wide text-[#ad2f8c]">
+                                        <span className="inline-flex rounded-full bg-[#f8ebf8] px-4 py-1 text-lg font-semibold tracking-wide text-[#ad2f8c]">
                                             FREE PLAN
                                         </span>
 
-                                        <span className="inline-flex h-16 w-16 items-center justify-center rounded-[14px] bg-[#edf1f7] text-[#2a4da5]">
+                                        <span className="inline-flex h-14 w-14 items-center justify-center rounded-[14px] bg-[#edf1f7] text-[#2a4da5]">
                                             <FiCheckCircle className="h-8 w-8" />
                                         </span>
                                     </div>

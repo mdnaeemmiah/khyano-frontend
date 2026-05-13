@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
   IconPlayerPlayFilled,
   IconCalendar,
   IconEdit,
+  IconChevronDown,
   IconDownload,
   IconTrash,
   IconX,
@@ -89,6 +90,22 @@ const generatedAssets: Asset[] = [
 
 const LibraryDetails = () => {
   const [selectedAssets, setSelectedAssets] = useState<number[]>([]);
+  const [isEditorMenuOpen, setIsEditorMenuOpen] = useState(false);
+  const editMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        editMenuRef.current &&
+        !editMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsEditorMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
 
   const toggleAssetSelection = (id: number) => {
     setSelectedAssets((prevSelected) =>
@@ -228,9 +245,34 @@ const LibraryDetails = () => {
                   <IconCalendar className="h-5 w-5" /> Schedule
                 </button>
               </Link>
-              <button className="flex items-center gap-2 hover:text-gray-900">
-                <IconEdit className="h-5 w-5" /> Edit
-              </button>
+              <div className="relative" ref={editMenuRef}>
+                <button
+                  onClick={() => setIsEditorMenuOpen((current) => !current)}
+                  className="flex items-center gap-2 hover:text-gray-900"
+                >
+                  <IconEdit className="h-5 w-5" />
+                  Edit
+                  <IconChevronDown className="h-4 w-4" />
+                </button>
+                {isEditorMenuOpen && (
+                  <div className="absolute bottom-11 left-0 min-w-44 rounded-xl border border-gray-200 bg-white p-2 shadow-xl">
+                    <Link
+                      href="/imageEditor"
+                      className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100"
+                      onClick={() => setIsEditorMenuOpen(false)}
+                    >
+                      Image Editor
+                    </Link>
+                    <Link
+                      href="/videoEditor"
+                      className="mt-1 block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100"
+                      onClick={() => setIsEditorMenuOpen(false)}
+                    >
+                      Video Editor
+                    </Link>
+                  </div>
+                )}
+              </div>
               <button className="flex items-center gap-2 hover:text-gray-900">
                 <IconDownload className="h-5 w-5" /> Download
               </button>
